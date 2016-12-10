@@ -1,0 +1,142 @@
+
+<?php 
+require_once 'layouts/header.php';
+require_once 'login.php';
+
+//funtion to calculate semester name
+
+	$sem2= semname();
+ $sem1= $sem2."-".date('Y');
+
+ //function to return value to select semester box
+function sel_semester()
+{
+	if(isset($_POST['search']))
+	{
+		if(isset($_POST['semester']))
+			return $_POST['semester'];
+		else
+			return 0;
+	}	
+	else
+		return semname();
+}
+
+//function to send vlaaue o select year box
+function sel_year()
+{
+	if(isset($_POST['search']))
+		return $_POST['year'];
+	else
+		return date('Y');
+}
+function output()
+{
+
+}
+
+  
+
+if(isset($_SESSION['user'])=="")
+  {
+require_once 'register.php';
+
+echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-info">You need to be registered and logged in to see the contents of this site.<br/>Please Register or Login if registered earlier</div></center>';
+
+}
+else
+{
+if(time()-$_SESSION['logged_in']>300)
+  {
+
+    echo '<script>window.alert("You have been auto logged out for 5 minutes inactivity");</script>';
+    echo '<script>window.location.href="logout.php";</script>';
+  }
+  else{
+  	$_SESSION['logged_in']= time();
+  }
+
+
+ $sid = mysql_real_escape_string($_SESSION['userid']);
+ $std_name = mysql_real_escape_string($_SESSION['user']);
+	echo '<center><form method="post" class="form-horizontal "><div class=" col-sm-2">
+	<select name="semester" class="form-control" required>
+	<option selected hidden value="'.sel_semester().'">'.sel_semester().'</option>
+    <option value="Summer">Summer</option>
+    <option value="Fall">Fall</option>
+    <option value="Spring">Spring</option>
+  </select></div><div class=" col-sm-2"><input name="year" class="form-control" type="number" value="'.sel_year().'" /></div>
+  <div class=" col-sm-2">
+  <button id="btn-search" class="btn btn-info btn-block" name="search">Get Schedule</button>
+  </div>
+  </form></center><button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-default">Reload</button><span style="float:right" class="alert alert-info">Your current semester is: '.$sem1.'</span>
+   ';
+   
+  if(isset($_POST['search']))
+  	{
+  		$sem= $_POST['semester'].'-'.$_POST['year'];
+
+  		$q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC,routine.starts ASC";
+	 $res= mysql_query($q) or die(mysql_error());
+	 
+if(mysql_num_rows($res)>0)
+	{echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
+            <tr style="font-weight:  ;">
+			<th>Course Code</th>
+			<th>Section</th>
+			<th>Time</th>
+			<th>Week days</th>
+			<th>Room</th>
+            </tr>';
+
+        while ($row = mysql_fetch_assoc($res)) {
+            //output($row);
+            echo ' <tr>
+			<td> '.$row["course_code"]. '</td>
+			<td> '.$row["section"]. '</td>
+			<td> '.date('h:i A', strtotime($row["starts"])). ' - '.date('h:i A', strtotime($row["ends"])). '</td>
+			<td> '.$row["weekdays"]. '</td>
+			<td> '.$row["room"]. '</td>
+            </tr> ';
+        }
+     echo '</table><hr class="style14"/></div>';}
+     else{
+     	echo '<br/><br/><hr class="style9"/><div class="col-md-3"></div><center><div class="col-md-6 alert alert-danger"><strong>Sorry!</strong> There was no record found for your selected semester: <i>'.$sem.'</i><br/>Would you like to <a class="my-label alert" href="add.php">ADD</a> a schedule for '.$sem.'?</div></center>';
+     }
+ }
+ else
+ { 
+ 
+$q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem1' order by weekdays.wid ASC,routine.starts ASC";
+
+	
+	 $res2= mysql_query($q2) or die(mysql_error());
+	 
+
+	echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for current semester</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
+            <tr style="font-weight:  ;">
+			<th>Course Code</th>
+			<th>Section</th>
+			<th>Time</th>
+			<th>Week days</th>
+			<th>Room</th>
+            </tr>';
+
+        while ($row2 = mysql_fetch_assoc($res2)) {
+            
+            echo ' <tr>
+			<td> '.$row2["course_code"]. '</td>
+			<td> '.$row2["section"]. '</td>
+			<td> '.date('h:i:s A', strtotime($row2["starts"])). ' - '.date('h:i:s A', strtotime($row2["ends"])). '</td>
+			<td> '.$row2["weekdays"]. '</td>
+			<td> '.$row2["room"]. '</td>
+            </tr> ';
+        }
+     echo '</table><hr class="style8"/></div>';
+ }
+
+}
+
+
+require_once 'layouts/footer.php';
+?>
