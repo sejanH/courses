@@ -23,8 +23,8 @@ Solely developed by https://github.com/sejanH
 
 Contact
 -------
-+ Email: sejan840@yahoo.com
-+ Twitter: https://twitter.com/sejanH
+[+] Email: sejan840@yahoo.com
+[+] Twitter: https://twitter.com/sejanH
 
 Used Plugins
 ============
