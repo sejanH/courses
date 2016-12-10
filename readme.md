@@ -28,6 +28,6 @@ Contact
 
 Used Plugins
 ============
-Bootstrap.css v3.3.6 (http://getbootstrap.com)
-Bootstrap.js v3.3.6 (http://getbootstrap.com)
-jQuery v1.10.2
+- Bootstrap.css v3.3.6 (http://getbootstrap.com)
+- Bootstrap.js v3.3.6 (http://getbootstrap.com)
+- jQuery v1.10.2
