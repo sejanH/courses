@@ -1,18 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 3.4.4
--- http://www.phpmyadmin.net
---
+
 -- Host: localhost
 -- Generation Time: Sep 09, 2016 at 07:47 PM
 -- Server version: 5.5.15
 -- PHP Version: 5.3.8
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
---
--- Database: `dmsm`
---
 
 -- --------------------------------------------------------
 
@@ -37,12 +27,11 @@ CREATE TABLE IF NOT EXISTS `routine` (
 --
 
 INSERT INTO `routine` (`std_id`, `semester`, `course_code`, `section`, `starts`, `ends`, `weekdays`, `room`) VALUES
-('2013-2-60-009', 'Fall-2016', 'CSE365', 1, '15:10:00', '16:40:00', 'TR', 219),
-('2013-2-60-009', 'Fall-2016', 'CSE411', 2, '15:10:00', '16:40:00', 'MW', 224),
-('2013-2-60-009', 'Fall-2016', 'CSE422', 1, '13:30:00', '15:00:00', 'ST', 435),
-('2013-2-60-009', 'Fall-2016', 'CSE422 (Lab)', 1, '16:50:00', '18:50:00', 'R', 630),
-('2013-2-60-009', 'Fall-2016', 'CSE365 (Lab)', 1, '16:50:00', '18:50:00', 'T', 530),
-('2013-2-60-009', 'Summer-2016', 'CSE360', 2, '10:10:00', '11:40:00', 'R', 108);
+('1234-567-890', 'Fall-2016', 'CSE365', 1, '15:10:00', '16:40:00', 'TR', 219),
+('1234-567-890', 'Fall-2016', 'CSE411', 2, '15:10:00', '16:40:00', 'MW', 224),
+('1234-567-890', 'Fall-2016', 'CSE422', 1, '13:30:00', '15:00:00', 'ST', 435),
+('1234-567-890', 'Fall-2016', 'CSE422 (Lab)', 1, '16:50:00', '18:50:00', 'R', 630),
+('1234-567-890', 'Fall-2016', 'CSE365 (Lab)', 1, '16:50:00', '18:50:00', 'T', 530);
 
 -- --------------------------------------------------------
 
@@ -66,28 +55,4 @@ CREATE TABLE IF NOT EXISTS `student_info` (
 --
 
 INSERT INTO `student_info` (`id`, `std_name`, `email`, `DoB`, `pass`, `starting_semester`) VALUES
-('2013-2-60-009', 'S.M. Mominul Haque', 'sejan840@gmail.com', '1994-06-08', 'xxxxxx', 'Summer-2013'),
-('2013-2-60-017', 'Mohammad Ramzan Hossain', '', '1992-04-01', 'ramzan', 'Summer-2013');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_info`
---
-
-CREATE TABLE IF NOT EXISTS `user_info` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(150) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `user_info`
---
-
-INSERT INTO `user_info` (`user_id`, `username`, `password`) VALUES
-(2, 'sejan_haque', 'sejan'),
-(4, 'pada', 'pada'),
-(5, 'ragib', 'ragib');
+('1234-567-890', 'ABCD EFGH', 'demo@invlid.com', '1994-06-08', 'xxxxxx', 'Summer-2013');
