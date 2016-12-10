@@ -5,16 +5,16 @@ Also allows them to store the schedule and class room number.
 
 Requirements
 ============
-PHP >=5.4
-MySql >=5.5
-This app won't wok on PHP 7 or greater.
+* PHP >=5.4
+* MySql >=5.5
+** This app won't wok on PHP 7 or greater.
 
 Credits
 =======
 Solely developed by https://github.com/sejanH
 
-References
-==========
+Used Plugins
+============
 Bootstrap.css v3.3.6 (http://getbootstrap.com)
 Bootstrap.js v3.3.6 (http://getbootstrap.com)
 jQuery v1.10.2
