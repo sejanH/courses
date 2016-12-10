@@ -21,6 +21,11 @@ Credits
 =======
 Solely developed by https://github.com/sejanH
 
+Contact
+-------
+Email: sejan840@yahoo.com
+Twitter: https://twitter.com/sejanH
+
 Used Plugins
 ============
 Bootstrap.css v3.3.6 (http://getbootstrap.com)
