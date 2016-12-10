@@ -13,7 +13,7 @@ Installation
 ============
 * First modify the file @ db/db.php according to your mySql configuration.
 * Also determine the database you're using.
-* Use the sql.txt file to add the tables and some sample data.
+* Use the "sql.txt" file to add the tables and some sample data.
 * Rest is up to you.
 
 
@@ -23,8 +23,8 @@ Solely developed by https://github.com/sejanH
 
 Contact
 -------
-Email: sejan840@yahoo.com
-Twitter: https://twitter.com/sejanH
++ Email: sejan840@yahoo.com
++ Twitter: https://twitter.com/sejanH
 
 Used Plugins
 ============
