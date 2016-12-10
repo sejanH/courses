@@ -23,13 +23,11 @@ Solely developed by https://github.com/sejanH
 
 Contact
 -------
-<<<<<<< HEAD
-[+] Email: sejan840@yahoo.com
-[+] Twitter: https://twitter.com/sejanH
+- Email: sejan840@yahoo.com
+- Twitter: https://twitter.com/sejanH
 =======
 - Email: sejan840@yahoo.com
 - Twitter: https://twitter.com/sejanH
->>>>>>> 63b61b6f2a969f50bdbe7b58f6004e988e7b6f21
 
 Used Plugins
 ============
