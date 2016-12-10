@@ -36,8 +36,16 @@ Used Plugins
 
 Preview
 =======
+Desktop
+-------
 ![homepage](https://cloud.githubusercontent.com/assets/16546092/21073659/1b50f8bc-bf0f-11e6-80fa-83697a12abf4.jpg)
+Mobile
+------
 ![homepage_mobile](https://cloud.githubusercontent.com/assets/16546092/21073660/1b511126-bf0f-11e6-8d7f-9ce20420b94b.jpg)
+Login
+-----
 ![login](https://cloud.githubusercontent.com/assets/16546092/21073661/1b52e2c6-bf0f-11e6-8cbd-fe16fc72afc8.jpg)
+LoginFailed
+-----------
 ![loginfailed](https://cloud.githubusercontent.com/assets/16546092/21073662/1b5418c6-bf0f-11e6-8964-9d83b68da8f6.jpg)
 
