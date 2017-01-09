@@ -1,5 +1,5 @@
 <?php
-require_once 'db/db.php';
+require_once 'auth/db.php';
 
 if(isset($_SESSION['user'])=="")
   {
@@ -19,21 +19,37 @@ function semname() {
     
   } 
 
+
+// //setting up cookies
+// $site_name = "localhost/courses"; 
+// setcookie("first_cookie",$site_name,time()+259200); 
+// //reading from cookie
+// if(isset($_COOKIE["first_cookie"]))
+// $site = $_COOKIE["first_cookie"];
+
+
 ?>
-<html>
+<html  lang="en">
 <head>
 	<title>Welcome</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="css-js/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="css-js/main.css"/>
-   <link rel="stylesheet" type="text/css" href="css-js/bootstrap.css"/>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="css-js/btn.css"/>
+  <link rel="stylesheet" type="text/css" href="css-js/bootstrap.css"/>
+  <!-- <link rel="stylesheet" type="text/css" href="css-js/mdb.css"/> -->
+	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
   <link rel="stylesheet" href="css-js/font-awesome.min.css"/>
-  <script src="css-js/jquery-confirm.js"></script>
-  <script src="css-js/bootbox.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="css-js/mdb.min.js"></script>
+  <script type="text/javascript" src="css-js/tether.min.js"></script>
+  <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script> -->
+  <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> -->
+
+<!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"/>
 	<link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Play:700,400' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
@@ -61,12 +77,33 @@ function semname() {
       Are You Sure You Want To Logout?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">No! No!! Abort Abort</button>
-        <button type="button" class="btn btn-primary" onclick="window.location.href='logout.php'">Yes I am fucking sure</button>
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Not Now</button>
+        <button type="button" class="btn btn-outline-danger" onclick="window.location.href='logout.php'">Yes Logout Now</button>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#btn-reload").click(function(){
+      $(this).text("Reloading. . .");
+    });
+
+    $("#btn-search").click(function(){
+      $(this).text("Searching....");
+    });
+$("#btn-update").click(function(){
+  confirm("Are you sure?");
+});
+
+$("#logout").click(function(){
+      $("#logoutmodal").modal();
+    });
+
+  });
+</script>
+
 
 </head>
 <body>
@@ -87,16 +124,16 @@ function semname() {
       </ul>
       <ul class="nav navbar-nav navbar-right"><?php
       if(isset($_SESSION['user'])=="")
-      {?>  <li class="hover"><a href="#" id="myBtn2"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#" id="myBtn"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {?>  <li class="hover"><a href="#register" id="myBtn2"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#login" id="myBtn"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         <?php 
       }
       else{?>
       <li class="active"><a><?php echo 'Hello '.$_SESSION['user'];?></a></li>
-<li><a data-toggle="modal" id="logout" href="logout.php" title="Logout"><span class="glyphicon glyphicon-off"></span></a></li>
+<li><a data-toggle="modal" id="logout" href="#signout" title="Logout"><span class="glyphicon glyphicon-off"></span></a></li>
     <?php  }
     ?>
       </ul>
     </div>
 </nav>
-<div class="container-fluid">
+

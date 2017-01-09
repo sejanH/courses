@@ -1,7 +1,7 @@
-
 <?php 
 require_once 'layouts/header.php';
-require_once 'login.php';
+require_once 'layouts/auth/login.php';
+require_once 'layouts/auth/register.php';
 
 //funtion to calculate semester name
 
@@ -39,10 +39,9 @@ function output()
 
 if(isset($_SESSION['user'])=="")
   {
-require_once 'register.php';
 
 echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-info">You need to be registered and logged in to see the contents of this site.<br/>Please Register or Login if registered earlier</div></center>';
-
+require_once 'layouts/footer.php';
 }
 else
 {
@@ -57,19 +56,20 @@ if(time()-$_SESSION['logged_in']>300)
   }
 
 
- $sid = mysql_real_escape_string($_SESSION['userid']);
- $std_name = mysql_real_escape_string($_SESSION['user']);
-	echo '<center><form method="post" class="form-horizontal "><div class=" col-sm-2">
+ $sid = mysqli_real_escape_string($conn, $_SESSION['userid']);
+ $std_name = mysqli_real_escape_string($conn, $_SESSION['user']);
+	echo '<center><form method="post" class="form-group"><div class=" col-sm-2">
 	<select name="semester" class="form-control" required>
 	<option selected hidden value="'.sel_semester().'">'.sel_semester().'</option>
     <option value="Summer">Summer</option>
     <option value="Fall">Fall</option>
     <option value="Spring">Spring</option>
   </select></div><div class=" col-sm-2"><input name="year" class="form-control" type="number" value="'.sel_year().'" /></div>
-  <div class=" col-sm-2">
-  <button id="btn-search" class="btn btn-info btn-block" name="search">Get Schedule</button>
+  <div class=" col-sm-3 ">
+  <button id="btn-search" class="btn btn-outline-white" name="search">Get Schedule</button>
+  <button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-outline-white">Reload</button>
   </div>
-  </form></center><button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-default">Reload</button><span style="float:right" class="alert alert-info">Your current semester is: '.$sem1.'</span>
+  </form></center><span style="float:right" class="alert alert-info">Your current semester is: '.$sem1.'</span>
    ';
    
   if(isset($_POST['search']))
@@ -77,9 +77,9 @@ if(time()-$_SESSION['logged_in']>300)
   		$sem= $_POST['semester'].'-'.$_POST['year'];
 
   		$q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC,routine.starts ASC";
-	 $res= mysql_query($q) or die(mysql_error());
+	 $res= mysqli_query($conn, $q) or die(mysql_error());
 	 
-if(mysql_num_rows($res)>0)
+if(mysqli_num_rows($res)>0)
 	{echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
             <tr style="font-weight:  ;">
 			<th>Course Code</th>
@@ -89,7 +89,7 @@ if(mysql_num_rows($res)>0)
 			<th>Room</th>
             </tr>';
 
-        while ($row = mysql_fetch_assoc($res)) {
+        while ($row = mysqli_fetch_assoc($res)) {
             //output($row);
             echo ' <tr>
 			<td> '.$row["course_code"]. '</td>
@@ -110,7 +110,7 @@ if(mysql_num_rows($res)>0)
 $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem1' order by weekdays.wid ASC,routine.starts ASC";
 
 	
-	 $res2= mysql_query($q2) or die(mysql_error());
+	 $res2= mysqli_query($conn, $q2) or die(mysql_error());
 	 
 
 	echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for current semester</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
@@ -122,7 +122,7 @@ $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays w
 			<th>Room</th>
             </tr>';
 
-        while ($row2 = mysql_fetch_assoc($res2)) {
+        while ($row2 = mysqli_fetch_assoc($res2)) {
             
             echo ' <tr>
 			<td> '.$row2["course_code"]. '</td>
@@ -137,6 +137,8 @@ $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays w
 
 }
 
+?>
 
+<?php
 require_once 'layouts/footer.php';
 ?>

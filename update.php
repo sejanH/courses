@@ -1,6 +1,7 @@
 <?php
-require_once 'db/db.php'; 
 require_once 'layouts/header.php';
+require_once 'layouts/auth/login.php';
+require_once 'layouts/auth/register.php';
 
 if(!isset($_SESSION['user']))
     {
@@ -31,20 +32,20 @@ if(time()-$_SESSION['logged_in']>600)
     $_SESSION['logged_in']= time();
   }
 
-$sid = mysql_real_escape_string($_SESSION['userid']);
+$sid = mysqli_real_escape_string($conn, $_SESSION['userid']);
 //$_SESSION['sem']= semname().'-'.date('Y');
  if (isset($_POST['delete']))
  {
-        $sem=mysql_real_escape_string($_SESSION['sem']);
-        $ccode = mysql_real_escape_string($_POST['ccode']);
-        $csec = mysql_real_escape_string($_POST['csec']);
-        $cstarts = mysql_real_escape_string($_POST['cstarts']);
-        $cends = mysql_real_escape_string($_POST['cends']);
-        $wd = mysql_real_escape_string($_POST['wd']);
-        $croom = mysql_real_escape_string($_POST['croom']);
+        $sem=mysqli_real_escape_string($conn, $_SESSION['sem']);
+        $ccode = mysqli_real_escape_string($conn, $_POST['ccode']);
+        $csec = mysqli_real_escape_string($conn, $_POST['csec']);
+        $cstarts = mysqli_real_escape_string($conn, $_POST['cstarts']);
+        $cends = mysqli_real_escape_string($conn, $_POST['cends']);
+        $wd = mysqli_real_escape_string($conn, $_POST['wd']);
+        $croom = mysqli_real_escape_string($conn, $_POST['croom']);
 $del = "DELETE FROM routine where course_code='$ccode' and std_id='$sid' and semester='$sem'";
 //echo $del;
-   $res = mysql_query($del) or die("Error: ".mysql_error());
+   $res = mysqli_query($conn, $del) or die("Error: ".mysql_error());
       if($res)
       {
         echo '<script>alert("Course: '.$ccode.' Deleted"); window.location.replace("update.php");</script>';
@@ -53,17 +54,19 @@ $del = "DELETE FROM routine where course_code='$ccode' and std_id='$sid' and sem
         echo '<script>alert("Operation unsuccessful");</script>';
       }
 }
-echo '<center><form method="post" class="form-horizontal "><div class=" col-sm-2">
+echo '<center><form method="post" class="form-group"><div class="container"><div class="col-md-2">
   <select name="semester" class="form-control" required>
   <option selected hidden value="">Select Semester</option>
     <option value="Summer">Summer</option>
     <option value="Fall">Fall</option>
     <option value="Spring">Spring</option>
-  </select></div><div class=" col-sm-2"><input name="year" class="form-control" type="number" value="'.date('Y').'" placeholder="Select Year" /></div>
-  <div class=" col-sm-2">
-  <button id="btn-search" type="submit" class="btn btn-primary" name="search">Get Schedule to Modify</button>
+  </select></div><div class=" col-md-2"><input name="year" class="form-control" type="number" value="'.date('Y').'" placeholder="Select Year" /></div>
+  <div class="">
+  <button id="btn-search" type="submit" class="btn btn-outline-primary" name="search">Get Schedule to Modify</button>
+  <button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-outline-warning">Reload</button>
   </div>
-  </form><button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-default">Reload</button></center>';
+  </div>
+  </form></center>';
 
 
  if(isset($_POST['search']))
@@ -71,9 +74,9 @@ echo '<center><form method="post" class="form-horizontal "><div class=" col-sm-2
       $sem= $_POST['semester'].'-'.$_POST['year'];
   $_SESSION['sem']= $sem;
   $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC";
-   $res= mysql_query($q) or die(mysql_error());
+   $res= mysqli_query($conn, $q) or die(mysql_error());
   
-if(mysql_num_rows($res)>0)
+if(mysqli_num_rows($res)>0)
  { echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table class="table table-condensed" border="0">
             <tr>
       <th>Course Code</th>
@@ -85,15 +88,15 @@ if(mysql_num_rows($res)>0)
       <th>Actions</th>
             </tr>';
 
-        while ($row = mysql_fetch_assoc($res)) {
+        while ($row = mysqli_fetch_assoc($res)) {
             //output($row);
       echo '<form class="form-horizontal" action="" method="POST"> <tr>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["course_code"]).'" name="ccode"></input></td>
-      <td width="35px"><input class="form-control" value="'.mysql_real_escape_string($row["section"]).'" type="number" name="csec"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["starts"]).'" type="time" name="cstarts"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["ends"]).'" type="time" name="cends"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["weekdays"]).'" name="wd"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["room"]).'" name="croom"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["course_code"]).'" name="ccode"></input></td>
+      <td width="35px"><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["section"]).'" type="number" name="csec"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["starts"]).'" type="time" name="cstarts"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["ends"]).'" type="time" name="cends"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["weekdays"]).'" name="wd"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["room"]).'" name="croom"></input></td>
       <td><span class="btn-group"><button id="btn-update" name="edit" class="btn btn-warning">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button><button name="delete" class="btn btn-danger">Delete</button></span></td>
             </tr> </form>';
         }
@@ -115,7 +118,7 @@ else{
 }
 
   $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC";
-   $res= mysql_query($q) or die(mysql_error());
+   $res= mysqli_query($conn, $q) or die(mysql_error());
   
 
   echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table class="table table-condensed">
@@ -129,15 +132,16 @@ else{
       <th>Actions</th>
             </tr>';
 
-        while ($row = mysql_fetch_assoc($res)) {
+        while ($row = mysqli_fetch_assoc($res)) {
+          $oldccode =mysqli_real_escape_string($conn, $row["course_code"]);
             //output($row);
       echo '<form class="form-inline"  method="POST"><tr>
-      <td class="form-group"><input class="form-control" value="'.mysql_real_escape_string($row["course_code"]).'" name="ccode"></input></td>
-      <td class="form-group" width="35px"><input class="form-control" value="'.mysql_real_escape_string($row["section"]).'" type="number" name="csec"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["starts"]).'" type="time" name="cstarts"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["ends"]).'" type="time" name="cends"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["weekdays"]).'" name="wd"></input></td>
-      <td><input class="form-control" value="'.mysql_real_escape_string($row["room"]).'" name="croom"></input></td>
+      <td class="form-group"><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["course_code"]).'" name="ccode"></input></td>
+      <td class="form-group" width="35px"><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["section"]).'" type="number" name="csec"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["starts"]).'" type="time" name="cstarts"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["ends"]).'" type="time" name="cends"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["weekdays"]).'" name="wd"></input></td>
+      <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["room"]).'" name="croom"></input></td>
       <td><span class="btn-group"><button name="edit" class="btn btn-warning">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button><button name="delete" class="btn btn-danger">Delete</button></span></td>
             </tr> </form>';
         }
@@ -149,20 +153,20 @@ else{
 
 if(isset($_POST['edit']))
  {
-    $sem=mysql_real_escape_string($_SESSION['sem']);
-    $ccode = mysql_real_escape_string($_POST['ccode']);
-    $csec = mysql_real_escape_string($_POST['csec']);
-    $cstarts = mysql_real_escape_string($_POST['cstarts']);
-    $cends = mysql_real_escape_string($_POST['cends']);
-    $wd = mysql_real_escape_string($_POST['wd']);
-    $croom = mysql_real_escape_string($_POST['croom']);
+    $sem=mysqli_real_escape_string($conn, $_SESSION['sem']);
+    $ccode = mysqli_real_escape_string($conn, $_POST['ccode']);
+    $csec = mysqli_real_escape_string($conn, $_POST['csec']);
+    $cstarts = mysqli_real_escape_string($conn, $_POST['cstarts']);
+    $cends = mysqlireal_escape_string($conn, $_POST['cends']);
+    $wd = mysqli_real_escape_string($conn, $_POST['wd']);
+    $croom = mysqli_real_escape_string($conn, $_POST['croom']);
 
-$edit = "UPDATE routine set course_code='$ccode',section='$csec',starts='$cstarts',ends='$cends',weekdays='$wd',room='$croom' WHERE std_id='$sid' and semester='$sem' and course_code='$ccode' and weekdays='$wd'";
+$edit = "UPDATE routine set course_code='$ccode',section='$csec',starts='$cstarts',ends='$cends',weekdays='$wd',room='$croom' WHERE std_id='$sid' and semester='$sem' and course_code='$oldccode' and weekdays='$wd'";
 
-$res = mysql_query($edit) or die("Error: ".mysql_error());
+$res = mysqli_query($conn, $edit) or die("Error: ".mysql_error());
  
       if($res){
-        echo '<script>alert("Course: '.$ccode.' Edit Successful");window.location.replace("update.php");</script>';
+        echo '<script>alert("Course Edit Successful");window.location.replace("update.php");</script>';
       }
       else{
         echo '<script>alert("Operation unsuccessful");</script>';

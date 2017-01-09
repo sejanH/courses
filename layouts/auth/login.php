@@ -5,21 +5,22 @@ require_once 'db.php';
 if(isset($_POST['login']))
 {
 
- $id = mysql_real_escape_string($_POST['usrname']);
- $pass = mysql_real_escape_string($_POST['psw']);
- //$pass= md5($pass);
+ $id = mysqli_real_escape_string($conn, $_POST['usrname']);
+ $pass = mysqli_real_escape_string($conn, $_POST['psw']);
+ $pass= md5($pass);
  $query = "SELECT * FROM student_info WHERE id='$id' AND pass='$pass'";
- $res= @mysql_query($query) or die(mysql_error());
- $row=mysql_fetch_array($res);
- $count=mysql_num_rows($res);
+ $res= mysqli_query($conn, $query) or die(mysqli_error());
+ $row=mysqli_fetch_array($res);
+ $count=mysqli_num_rows($res);
  if($count >= 1)
  {
-  session_start();
+  //session_start();
   $_SESSION['logged_in']= time();
   
   $_SESSION['user'] = $row['std_name'];
    $_SESSION['userid'] = $row['id'];
-  header("Location:index.php");
+   echo '<script>window.location.href="index.php";</script>';
+  //header("Location:index.php");
   
  }
  else
@@ -72,7 +73,7 @@ $(document).ready(function(){
             <div class="checkbox">
               <label><input type="checkbox" value="" checked>Remember me</label>
             </div>
-              <button type="submit" class="btn btn-success btn-block" name="login" id="logginin"><span class="glyphicon glyphicon-log-in"></span> Login</button>
+              <button type="submit" class="btn btn-outline-black btn-block" name="login" id="logginin"><span class="glyphicon glyphicon-log-in"></span> Login</button>
           </form>
         </div>
       </div>

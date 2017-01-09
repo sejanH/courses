@@ -1,6 +1,7 @@
 <?php
-require_once 'db/db.php'; 
 require_once 'layouts/header.php';
+require_once 'layouts/auth/login.php';
+require_once 'layouts/auth/register.php';
 
 if(!isset($_SESSION['user']))
     {
@@ -23,26 +24,25 @@ echo '</script>';
 
 if(isset($_POST['submit']))
 {
-
- $id = mysql_real_escape_string($_POST['userid']);
- $sem = mysql_real_escape_string($_POST['sem']);
+ $id = mysqli_real_escape_string($conn, $_POST['userid']);
+ $sem = mysqli_real_escape_string($conn, $_POST['sem']);
  if(isset($_POST['lab']))
- 	$ccode = mysql_real_escape_string($_POST['ccode']).mysql_real_escape_string($_POST['lab']);
+ 	$ccode = mysqli_real_escape_string($conn, $_POST['ccode']).mysqli_real_escape_string($conn, $_POST['lab']);
  else
- 	$ccode= mysql_real_escape_string($_POST['ccode']);
+ 	$ccode= mysqli_real_escape_string($conn, $_POST['ccode']);
  	
- $section = mysql_real_escape_string($_POST['sec']);
- $cstarts = mysql_real_escape_string($_POST['strt']);
- $cends = mysql_real_escape_string($_POST['ends']);
- $wd = $_POST['wd'];
- $room = mysql_real_escape_string($_POST['room']);
+ $section = mysqli_real_escape_string($conn, $_POST['sec']);
+ $cstarts = mysqli_real_escape_string($conn, $_POST['strt']);
+ $cends = mysqli_real_escape_string($conn, $_POST['ends']);
+ $wd = mysqli_real_escape_string($conn, $_POST['wd']);
+ $room = mysqli_real_escape_string($conn, $_POST['room']);
  
 
  
 
  for($i=0;$i<sizeof($wd);$i++)
  { $query = "INSERT INTO routine(  std_id,semester,course_code,section,starts,ends,weekdays,room) values('$id','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
- $res= mysql_query($query) or die(mysql_error());
+ $res= mysqli_query($conn, $query) or die(mysql_error());
  }
  if($res)
  {
@@ -137,7 +137,7 @@ if(isset($_POST['submit']))
  
 <div class="form-group" style="padding-left: 30%;"> <br/><br/>
     <div class="col-md-offset-2 col-md-9"><br/>
-<button class="btn btn-warning btn-lg" type="submit" name="submit">Add New Schedule</button> 
+<button class="btn btn-outline-info" type="submit" name="submit">Add New Schedule</button> 
 </div>
 </div>
 </form>
