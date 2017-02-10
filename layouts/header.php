@@ -2,43 +2,21 @@
 require_once 'auth/db.php';
 
 if(isset($_SESSION['user'])=="")
-  {
+{
     session_start();
-    
 }
-function semname() {
-    $semesters=array("Spring","Summer","Fall");
-    $mnth = date("m");
-    $yr = date("Y");
-
-    if($mnth<4)
-      return $semesters[0];
-    elseif ($mnth>3 && $mnth<8)
-      return $semesters[1];
-    else return $semesters[2];
-    
-  } 
-
-
-// //setting up cookies
-// $site_name = "localhost/courses"; 
-// setcookie("first_cookie",$site_name,time()+259200); 
-// //reading from cookie
-// if(isset($_COOKIE["first_cookie"]))
-// $site = $_COOKIE["first_cookie"];
-
-
+function semname() {    $semesters=array("Spring","Summer","Fall");    $mnth = date("m");    $yr = date("Y");    if($mnth<4)      return $semesters[0];    elseif ($mnth>3 && $mnth<8)      return $semesters[1];    else return $semesters[2];      }function sel_semester(){  if(isset($_POST['search']))  {    if(isset($_POST['semester']))      return $_POST['semester'];    else      return 0;  }   else    return semname();}//function to send vlaaue o select year boxfunction sel_year(){  if(isset($_POST['search']))    return $_POST['year'];  else    return date('Y');} 
 ?>
 <html  lang="en">
 <head>
 	<title>Welcome</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- for Google --><meta name="description" content="A simple website for EWU students to keep track of their courses semester wise" /><meta name="keywords" content="courses, EWU, students" /><meta name="application-name" content="courses.sejan.xyz" /><!-- for Facebook -->          <meta property="og:title" content="Welcome to Courses" /><meta property="og:type" content="blog" /><meta property="og:image" content="http://courses.sejan.xyz/preview.png" /><meta property="og:url" content="http://courses.sejan.xyz" /><meta property="og:description" content="A simple website for EWU students to keep track of their courses semester wise" /><!-- for Twitter -->          <meta name="twitter:card" content="summary" /><meta name="twitter:title" content="Welcome to Courses" /><meta name="twitter:description" content="A simple website for EWU students to keep track of their semester wise courses" /><meta name="twitter:image" content="http://courses.sejan.xyz/preview.png" />    
   <link rel="icon" href="css-js/favicon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="css-js/main.css"/>
   <link rel="stylesheet" type="text/css" href="css-js/btn.css"/>
   <link rel="stylesheet" type="text/css" href="css-js/bootstrap.css"/>
-  <!-- <link rel="stylesheet" type="text/css" href="css-js/mdb.css"/> -->
-	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+<!--   <link rel="stylesheet" type="text/css" href="css-js/mdb.css"/> -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> 
   <link rel="stylesheet" href="css-js/font-awesome.min.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

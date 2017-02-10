@@ -8,34 +8,13 @@ require_once 'layouts/auth/register.php';
 	$sem2= semname();
  $sem1= $sem2."-".date('Y');
 
- //function to return value to select semester box
-function sel_semester()
-{
-	if(isset($_POST['search']))
-	{
-		if(isset($_POST['semester']))
-			return $_POST['semester'];
-		else
-			return 0;
-	}	
-	else
-		return semname();
-}
-
-//function to send vlaaue o select year box
 function sel_year()
 {
-	if(isset($_POST['search']))
-		return $_POST['year'];
-	else
-		return date('Y');
-}
-function output()
-{
-
-}
-
-  
+  if(isset($_POST['search']))
+    return $_POST['year'];
+  else
+    return date('Y');
+} 
 
 if(isset($_SESSION['user'])=="")
   {
@@ -99,7 +78,7 @@ if(mysqli_num_rows($res)>0)
 			<td> '.$row["room"]. '</td>
             </tr> ';
         }
-     echo '</table><hr class="style14"/></div>';}
+     echo '</table></div>';}
      else{
      	echo '<br/><br/><hr class="style9"/><div class="col-md-3"></div><center><div class="col-md-6 alert alert-danger"><strong>Sorry!</strong> There was no record found for your selected semester: <i>'.$sem.'</i><br/>Would you like to <a class="my-label alert" href="add.php">ADD</a> a schedule for '.$sem.'?</div></center>';
      }
@@ -132,7 +111,7 @@ $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays w
 			<td> '.$row2["room"]. '</td>
             </tr> ';
         }
-     echo '</table><hr class="style8"/></div>';
+     echo '</table></div>';
  }
 
 }

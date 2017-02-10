@@ -1,56 +1,43 @@
 <?php
 require_once 'layouts/header.php';
-require_once 'layouts/auth/login.php';
-require_once 'layouts/auth/register.php';
-
+//require_once 'layouts/auth/login.php';
+//require_once 'layouts/auth/register.php';
 if(!isset($_SESSION['user']))
-    {
-    	//	ob_start();
-    	
-    		echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-danger">You need to be logged in to see the contents of this page.<br/>Please Register or Login if registered earlier<div class="alert-warning">You will be redirected to home page shortly</div>
+{	echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-danger">You need to be logged in to see the contents of this page.<br/>Please Register or Login if registered earlier<div class="alert-warning">You will be redirected to home page shortly</div>
    </center>';
-
-	
 		 ob_end_flush();
 		 flush();
 		 usleep(2000000);
-		
 		echo '<script type="text/javascript">';
 echo 'window.location.href="index.php";';
-echo '</script>';
-		//	header('Location:index.php');
-    }
+echo '</script>';    }
 
 
 if(isset($_POST['submit']))
 {
  $id = mysqli_real_escape_string($conn, $_POST['userid']);
- $sem = mysqli_real_escape_string($conn, $_POST['sem']);
+ $sem = strip_tags(mysqli_real_escape_string($conn, $_POST['sem']));
  if(isset($_POST['lab']))
- 	$ccode = mysqli_real_escape_string($conn, $_POST['ccode']).mysqli_real_escape_string($conn, $_POST['lab']);
+ 	$ccode = strip_tags(mysqli_real_escape_string($conn, $_POST['ccode']).mysqli_real_escape_string($conn, $_POST['lab']));
  else
- 	$ccode= mysqli_real_escape_string($conn, $_POST['ccode']);
- 	
+ 	$ccode= strip_tags(mysqli_real_escape_string($conn, $_POST['ccode']));
+ 
  $section = mysqli_real_escape_string($conn, $_POST['sec']);
  $cstarts = mysqli_real_escape_string($conn, $_POST['strt']);
  $cends = mysqli_real_escape_string($conn, $_POST['ends']);
- $wd = mysqli_real_escape_string($conn, $_POST['wd']);
+ $wd = $_POST['wd'];
  $room = mysqli_real_escape_string($conn, $_POST['room']);
  
-
- 
-
  for($i=0;$i<sizeof($wd);$i++)
  { $query = "INSERT INTO routine(  std_id,semester,course_code,section,starts,ends,weekdays,room) values('$id','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
  $res= mysqli_query($conn, $query) or die(mysql_error());
  }
- if($res)
- {
-  ?>
-        <script>alert('Course Added Successfully');</script>
-        <?php
- }
- else
+ // if($res)
+ // {
+  // ?>    <script>alert('Course Added Successfully');</script>
+ // <?php
+ // }
+ if(!$res)
  { ?>
         <script>alert('Something went wrong!');</script>
         <?php

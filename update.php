@@ -1,7 +1,6 @@
 <?php
 require_once 'layouts/header.php';
-require_once 'layouts/auth/login.php';
-require_once 'layouts/auth/register.php';
+//require_once 'layouts/auth/login.php';//require_once 'layouts/auth/register.php';
 
 if(!isset($_SESSION['user']))
     {
@@ -54,9 +53,9 @@ $del = "DELETE FROM routine where course_code='$ccode' and std_id='$sid' and sem
         echo '<script>alert("Operation unsuccessful");</script>';
       }
 }
-echo '<center><form method="post" class="form-group"><div class="container"><div class="col-md-2">
+echo '<center><form method="post" class="form-inline"><div class="container"><div class="col-md-2">
   <select name="semester" class="form-control" required>
-  <option selected hidden value="">Select Semester</option>
+  <option selected hidden value="'.sel_semester().'">'.sel_semester().'</option>
     <option value="Summer">Summer</option>
     <option value="Fall">Fall</option>
     <option value="Spring">Spring</option>
@@ -97,7 +96,7 @@ if(mysqli_num_rows($res)>0)
       <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["ends"]).'" type="time" name="cends"></input></td>
       <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["weekdays"]).'" name="wd"></input></td>
       <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["room"]).'" name="croom"></input></td>
-      <td><span class="btn-group"><button id="btn-update" name="edit" class="btn btn-warning">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button><button name="delete" class="btn btn-danger">Delete</button></span></td>
+      <td><button id="btn-update" name="edit" class="btn btn-warning btn-small">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button><button name="delete" class="btn btn-danger btn-small">Delete</button></td>
             </tr> </form>';
         }
      echo '</table></div>';
@@ -142,7 +141,7 @@ else{
       <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["ends"]).'" type="time" name="cends"></input></td>
       <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["weekdays"]).'" name="wd"></input></td>
       <td><input class="form-control" value="'.mysqli_real_escape_string($conn, $row["room"]).'" name="croom"></input></td>
-      <td><span class="btn-group"><button name="edit" class="btn btn-warning">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button><button name="delete" class="btn btn-danger">Delete</button></span></td>
+      <td><button name="edit" class="btn btn-warning btn-small">&nbsp;&nbsp;Edit&nbsp;&nbsp;</button><button name="delete" class="btn btn-danger btn-small">Delete</button></td>
             </tr> </form>';
         }
      echo '</table></div>';
@@ -157,14 +156,12 @@ if(isset($_POST['edit']))
     $ccode = mysqli_real_escape_string($conn, $_POST['ccode']);
     $csec = mysqli_real_escape_string($conn, $_POST['csec']);
     $cstarts = mysqli_real_escape_string($conn, $_POST['cstarts']);
-    $cends = mysqlireal_escape_string($conn, $_POST['cends']);
+    $cends = mysqli_real_escape_string($conn, $_POST['cends']);
     $wd = mysqli_real_escape_string($conn, $_POST['wd']);
     $croom = mysqli_real_escape_string($conn, $_POST['croom']);
-
 $edit = "UPDATE routine set course_code='$ccode',section='$csec',starts='$cstarts',ends='$cends',weekdays='$wd',room='$croom' WHERE std_id='$sid' and semester='$sem' and course_code='$oldccode' and weekdays='$wd'";
 
-$res = mysqli_query($conn, $edit) or die("Error: ".mysql_error());
- 
+$res = mysqli_query($conn, $edit) or die("Error: ".mysqli_error($conn));
       if($res){
         echo '<script>alert("Course Edit Successful");window.location.replace("update.php");</script>';
       }
@@ -172,8 +169,6 @@ $res = mysqli_query($conn, $edit) or die("Error: ".mysql_error());
         echo '<script>alert("Operation unsuccessful");</script>';
       }
 }
-
-
 }
 ?>
 

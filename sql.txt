@@ -1,58 +1,58 @@
-
--- Host: localhost
--- Generation Time: Sep 09, 2016 at 07:47 PM
--- Server version: 5.5.15
--- PHP Version: 5.3.8
-
--- --------------------------------------------------------
-
---
--- Table structure for table `routine`
---
-
-CREATE TABLE IF NOT EXISTS `routine` (
-  `std_id` varchar(20) NOT NULL,
-  `semester` varchar(15) NOT NULL,
-  `course_code` varchar(20) NOT NULL,
-  `section` int(5) NOT NULL,
-  `starts` time NOT NULL,
-  `ends` time NOT NULL,
-  `weekdays` varchar(5) NOT NULL,
-  `room` int(11) NOT NULL,
-  KEY `semester` (`semester`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `routine`
---
-
-INSERT INTO `routine` (`std_id`, `semester`, `course_code`, `section`, `starts`, `ends`, `weekdays`, `room`) VALUES
-('1234-567-890', 'Fall-2016', 'CSE365', 1, '15:10:00', '16:40:00', 'TR', 219),
-('1234-567-890', 'Fall-2016', 'CSE411', 2, '15:10:00', '16:40:00', 'MW', 224),
-('1234-567-890', 'Fall-2016', 'CSE422', 1, '13:30:00', '15:00:00', 'ST', 435),
-('1234-567-890', 'Fall-2016', 'CSE422 (Lab)', 1, '16:50:00', '18:50:00', 'R', 630),
-('1234-567-890', 'Fall-2016', 'CSE365 (Lab)', 1, '16:50:00', '18:50:00', 'T', 530);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student_info`
---
-
-CREATE TABLE IF NOT EXISTS `student_info` (
-  `id` varchar(20) NOT NULL,
-  `std_name` varchar(100) NOT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `DoB` date DEFAULT NULL,
-  `pass` varchar(20) NOT NULL,
-  `starting_semester` varchar(25) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `student_info`
---
-
-INSERT INTO `student_info` (`id`, `std_name`, `email`, `DoB`, `pass`, `starting_semester`) VALUES
-('1234-567-890', 'ABCD EFGH', 'demo@invlid.com', '1994-06-08', 'xxxxxx', 'Summer-2013');
+
+-- Host: localhost
+-- Generation Time: Sep 09, 2016 at 07:47 PM
+-- Server version: 5.5.15
+-- PHP Version: 5.3.8
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `routine`
+--
+
+CREATE TABLE IF NOT EXISTS `routine` (
+  `std_id` varchar(20) NOT NULL,
+  `semester` varchar(15) NOT NULL,
+  `course_code` varchar(20) NOT NULL,
+  `section` int(5) NOT NULL,
+  `starts` time NOT NULL,
+  `ends` time NOT NULL,
+  `weekdays` varchar(5) NOT NULL,
+  `room` int(11) NOT NULL,
+  KEY `semester` (`semester`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `routine`
+--
+
+INSERT INTO `routine` (`std_id`, `semester`, `course_code`, `section`, `starts`, `ends`, `weekdays`, `room`) VALUES
+('1234-567-890', 'Fall-2016', 'CSE365', 1, '15:10:00', '16:40:00', 'TR', 219),
+('1234-567-890', 'Fall-2016', 'CSE411', 2, '15:10:00', '16:40:00', 'MW', 224),
+('1234-567-890', 'Fall-2016', 'CSE422', 1, '13:30:00', '15:00:00', 'ST', 435),
+('1234-567-890', 'Fall-2016', 'CSE422 (Lab)', 1, '16:50:00', '18:50:00', 'R', 630),
+('1234-567-890', 'Fall-2016', 'CSE365 (Lab)', 1, '16:50:00', '18:50:00', 'T', 530);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_info`
+--
+
+CREATE TABLE IF NOT EXISTS `student_info` (
+  `id` varchar(20) NOT NULL,
+  `std_name` varchar(100) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `DoB` date DEFAULT NULL,
+  `pass` varchar(20) NOT NULL,
+  `starting_semester` varchar(25) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_info`
+--
+
+INSERT INTO `student_info` (`id`, `std_name`, `email`, `DoB`, `pass`, `starting_semester`) VALUES
+('1234-567-890', 'ABCD EFGH', 'demo@invlid.com', '1994-06-08', 'xxxxxx', 'Summer-2013');
