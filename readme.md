@@ -7,7 +7,6 @@ Requirements
 ============
 * PHP >=5.4
 * MySql >=5.5
-* This app won't wok on PHP 7 or greater.
 
 Installation
 ============
