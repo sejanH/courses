@@ -19,11 +19,10 @@ function sel_year()
 if(isset($_SESSION['user'])=="")
   {
 
-echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-info">You need to be registered and logged in to see the contents of this site.<br/>Please Register or Login if registered earlier</div></center>';
-require_once 'layouts/footer.php';
+echo '<center><div class="col-sm-3"></div><div style="margin: 12% 0% 0 0%; font-family: Exo; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-info">This simple PHP based website helps students of <br>East West University<br/> to keep track of completed and on goinging courses<br/>along side with its schedule, section and class room number.</div></center>';
 }
 else
-{
+{//inactivity check
 if(time()-$_SESSION['logged_in']>300)
   {
 
@@ -31,13 +30,12 @@ if(time()-$_SESSION['logged_in']>300)
     echo '<script>window.location.href="logout.php";</script>';
   }
   else{
-  	$_SESSION['logged_in']= time();
+    $_SESSION['logged_in']= time();
   }
-
-
+//search option showing
  $sid = mysqli_real_escape_string($conn, $_SESSION['userid']);
  $std_name = mysqli_real_escape_string($conn, $_SESSION['user']);
-	echo '<center><form method="post" class="form-group"><div class=" col-sm-2">
+	echo '<center ><div class=" col-sm-2"><form method="post" class="form-group">
 	<select name="semester" class="form-control" required>
 	<option selected hidden value="'.sel_semester().'">'.sel_semester().'</option>
     <option value="Summer">Summer</option>
@@ -46,31 +44,33 @@ if(time()-$_SESSION['logged_in']>300)
   </select></div><div class=" col-sm-2"><input name="year" class="form-control" type="number" value="'.sel_year().'" /></div>
   <div class=" col-sm-3 ">
   <button id="btn-search" class="btn btn-outline-white" name="search">Get Schedule</button>
-  <button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-outline-white">Reload</button>
-  </div>
-  </form></center><span style="float:right" class="alert alert-info">Your current semester is: '.$sem1.'</span>
+  </form>
+  
+  </div></center><span style="float:right" class="alert alert-info">Your current semester is: '.$sem1.'</span>
    ';
-   
+   // <button id="btn-reload" onclick="window.location.href=\'.\'" type="submit" class="btn btn-outline-white">Reload</button>
+
+   //showing searched details
   if(isset($_POST['search']))
   	{
   		$sem= $_POST['semester'].'-'.$_POST['year'];
 
   		$q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC,routine.starts ASC";
-	 $res= mysqli_query($conn, $q) or die(mysql_error());
+	 $res= mysqli_query($conn, $q) or die(mysqli_error($conn));
 	 
 if(mysqli_num_rows($res)>0)
-	{echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
-            <tr style="font-weight:  ;">
-			<th>Course Code</th>
-			<th>Section</th>
-			<th>Time</th>
-			<th>Week days</th>
-			<th>Room</th>
+	{echo '<div class="container" style="font-weight: bold"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
+        <tr style="font-weight: bold">
+			     <th>Course Code</th>
+			     <th>Section</th>
+			     <th>Time</th>
+			     <th>Week days</th>
+			     <th>Room</th>
             </tr>';
 
         while ($row = mysqli_fetch_assoc($res)) {
             //output($row);
-            echo ' <tr>
+            echo ' <tr style="font-weight: bold">
 			<td> '.$row["course_code"]. '</td>
 			<td> '.$row["section"]. '</td>
 			<td> '.date('h:i A', strtotime($row["starts"])). ' - '.date('h:i A', strtotime($row["ends"])). '</td>
@@ -84,12 +84,12 @@ if(mysqli_num_rows($res)>0)
      }
  }
  else
- { 
+ { //default information showing
  
 $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem1' order by weekdays.wid ASC,routine.starts ASC";
 
 	
-	 $res2= mysqli_query($conn, $q2) or die(mysql_error());
+	 $res2= mysqli_query($conn, $q2) or die(mysqli_error($conn));
 	 
 
 	echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for current semester</h1> <table style="background: rgba(255,255,255, .3);" class="table table-responsive">
@@ -101,9 +101,9 @@ $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays w
 			<th>Room</th>
             </tr>';
 
-        while ($row2 = mysqli_fetch_assoc($res2)) {
+        while ($row2 = mysqli_fetch_array($res2)) {
             
-            echo ' <tr>
+            echo ' <tr style="font-weight: bold">
 			<td> '.$row2["course_code"]. '</td>
 			<td> '.$row2["section"]. '</td>
 			<td> '.date('h:i:s A', strtotime($row2["starts"])). ' - '.date('h:i:s A', strtotime($row2["ends"])). '</td>
@@ -119,5 +119,5 @@ $q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays w
 ?>
 
 <?php
-require_once 'layouts/footer.php';
+  require_once 'layouts/footer.php';
 ?>

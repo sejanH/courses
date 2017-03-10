@@ -4,7 +4,7 @@ require_once 'layouts/header.php';
 
 if(!isset($_SESSION['user']))
     {
-    		echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-danger">You need to be logged in to see the contents of this page.<br/>Please Register or Login if registered earlier<div class="alert-warning">You will be redirected to home page shortly</div>
+    		echo '<div class="col-md-3"></div><center><div style="margin-top:12%; font-family: Exo; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-danger">You need to be logged in to see the contents of this page.<br/>Please Register or Login if registered earlier<div class="alert-warning">You will be redirected to home page shortly</div>
    </center>';
 
 	
@@ -22,9 +22,10 @@ else{
  $_SESSION['sem']= semname().'-'.date('Y');
  
 //inactivity check
-if(time()-$_SESSION['logged_in']>600)
+if(time()-$_SESSION['logged_in']>300)
   {
-    echo '<script>window.alert("Logged out for 10minutes inactivity");</script>';
+
+    echo '<script>window.alert("You have been auto logged out for 5 minutes inactivity");</script>';
     echo '<script>window.location.href="logout.php";</script>';
   }
   else{
@@ -53,30 +54,28 @@ $del = "DELETE FROM routine where course_code='$ccode' and std_id='$sid' and sem
         echo '<script>alert("Operation unsuccessful");</script>';
       }
 }
-echo '<center><form method="post" class="form-inline"><div class="container"><div class="col-md-2">
+echo '<br><center><form method="post" class="form-inline"><div class="container"><div class="col-md-2">
   <select name="semester" class="form-control" required>
   <option selected hidden value="'.sel_semester().'">'.sel_semester().'</option>
     <option value="Summer">Summer</option>
     <option value="Fall">Fall</option>
     <option value="Spring">Spring</option>
   </select></div><div class=" col-md-2"><input name="year" class="form-control" type="number" value="'.date('Y').'" placeholder="Select Year" /></div>
-  <div class="">
-  <button id="btn-search" type="submit" class="btn btn-outline-primary" name="search">Get Schedule to Modify</button>
-  <button id="btn-reload" onclick="window.location.reload()" type="submit" class="btn btn-outline-warning">Reload</button>
-  </div>
-  </div>
-  </form></center>';
+
+  <button id="btn-search" type="submit" class="btn btn-outline-white" name="search">Get Schedule to Modify</button>
+  </form>
+  <button id="btn-reload" onclick="window.location.href=\'update.php\'" type="submit" class="btn btn-outline-white">Reload</button></center>';
 
 
  if(isset($_POST['search']))
     {
       $sem= $_POST['semester'].'-'.$_POST['year'];
-  $_SESSION['sem']= $sem;
-  $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC";
-   $res= mysqli_query($conn, $q) or die(mysql_error());
+      $_SESSION['sem']= $sem;
+      $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC";
+      $res= mysqli_query($conn, $q) or die(mysql_error());
   
 if(mysqli_num_rows($res)>0)
- { echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table class="table table-condensed" border="0">
+ { echo '<div class="container"><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table class="table table-condensed" border="0">
             <tr>
       <th>Course Code</th>
       <th width="35px">Section</th>
@@ -120,7 +119,7 @@ else{
    $res= mysqli_query($conn, $q) or die(mysql_error());
   
 
-  echo '<div class="container"><br/><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table class="table table-condensed">
+  echo '<div class="container"><h1 style="text-align:center">Course Schedule for '.$sem.'</h1> <table class="table table-condensed">
             <tr style="font-weight:  ;">
       <th>Course Code</th>
       <th width="35px auto">Section</th>

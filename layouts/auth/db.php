@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$db = "test";
+$db = "dmsm";
 // Create connection
 $conn = mysqli_connect($servername, $username, $password,$db);
 
@@ -23,7 +23,7 @@ if (mysqli_connect_errno())
   `room` int(11) NOT NULL,
   KEY `semester` (`semester`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-mysqli_query($conn,$routine) or die("ERROR: ". mysqli_connect_error());
+$conn->query($routine);
 
 //creating table for the first time
   $std_dtls = "CREATE TABLE IF NOT EXISTS `student_info` (
@@ -36,6 +36,6 @@ mysqli_query($conn,$routine) or die("ERROR: ". mysqli_connect_error());
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-mysqli_query($conn,$std_dtls) or die("ERROR: ". mysqli_connect_error());
+$conn->query($std_dtls);
 
 

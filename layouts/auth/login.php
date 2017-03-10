@@ -1,115 +1,74 @@
 <?php
 
 require_once 'db.php';
-
-//require_once 'layouts/header.php';
-
-
-
+ 
 if(isset($_POST['login']))
 
 {
-
-
-
  $id = mysqli_real_escape_string($conn, $_POST['usrname']);
-
  $pass = mysqli_real_escape_string($conn, $_POST['psw']);
-
  $pass= md5($pass);
 
- $query = "SELECT * FROM student_info WHERE id='$id' AND pass='$pass'";
-
- $res= mysqli_query($conn, $query) or die(mysqli_error());
-
+ $query = "SELECT * FROM student_info WHERE std_id='$id' AND pass='$pass'";
+ $res= mysqli_query($conn, $query) or die(mysqli_error($conn));
  $row=mysqli_fetch_array($res);
-
  $count=mysqli_num_rows($res);
 
- if($count >= 1)
-
+ if($count == 1)
  {
-
   //session_start();
-
   $_SESSION['logged_in']= time();
-
-  
-
+  $_SESSION['regid'] = $row['regID'];
   $_SESSION['user'] = $row['std_name'];
+  $_SESSION['userid'] = $row['std_id'];
 
-   $_SESSION['userid'] = $row['id'];
-
-   echo '<script>window.location.href="index.php";</script>';
-
-  //header("Location:index.php");
-
-  
+  echo '<script>window.location.href="index.php";</script>';
 
  }
 
  else
 
- {
+ {?><script type="text/javascript">
+swal({
+        title: "Failed",
+        type: "error",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Try Again",
+        closeOnConfirm: true
+        },
+        function(){
+  $("#myModal").modal();
+});
+</script>
+<?php
+    // echo
 
-    echo
-
-    '<div class="jumbotron alert-info" style="text-align:center;">
-
-  <h3>Failed!</h3><hr/>
-
-  <p>Login credentials you provided were incorrect.</p>
-
-  <p id="tryagain" ><a class="btn btn-warning"href="#">Try Again</a></p>
-
-</div>';
-
+    // '<div class="jumbotron alert-info" style="text-align:center;">
+    // <h3>Failed!</h3><hr/>
+    // <p>Login credentials you provided were incorrect.</p>
+    // <p id="tryagain" ><a class="btn btn-warning"href="#">Try Again</a></p>
+    // </div>';
  }
-
- 
 
 }
 
-
-
 ?>
 
-
-
-
-
 <script>
-
 $(document).ready(function(){
-
     $("#myBtn").click(function(){
-
         $("#myModal").modal();
-
     });
-
-
 
     $("#tryagain").click(function(){
-
         $("#myModal").modal();
-
     });
-
 });
-
 </script>
 
-
-
 <center>
-
 <div class="modal fade" id="myModal" role="dialog">
-
     <div class="modal-dialog">
-
-    
-
       <!-- Modal content-->
 
       <div class="modal-content" style="width: 60%">
@@ -128,7 +87,7 @@ $(document).ready(function(){
 
             <div class="form-group">
 
-              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+              <label for="usrname"><span class="glyphicon glyphicon-user"></span> Student ID</label>
 
               <input type="text" class="form-control" name="usrname" placeholder="Enter username" required/>
 
@@ -155,8 +114,6 @@ $(document).ready(function(){
         </div>
 
       </div>
-
-      
 
     </div>
 

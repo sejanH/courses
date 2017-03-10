@@ -3,19 +3,20 @@ require_once 'layouts/header.php';
 //require_once 'layouts/auth/login.php';
 //require_once 'layouts/auth/register.php';
 if(!isset($_SESSION['user']))
-{	echo '<div class="col-md-3"></div><center><div style="margin-top:6%; font-family: Lato; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-danger">You need to be logged in to see the contents of this page.<br/>Please Register or Login if registered earlier<div class="alert-warning">You will be redirected to home page shortly</div>
+{	echo '<div class="col-md-3"></div><center><div style="margin-top:12%; font-family: Exo; font-size: 26px;font-weight: bold;" class="col-md-6 alert alert-danger">You need to be logged in to see the contents of this page.<br/>Please Register or Login if registered earlier<div class="alert-warning">You will be redirected to home page shortly</div>
    </center>';
 		 ob_end_flush();
 		 flush();
 		 usleep(2000000);
 		echo '<script type="text/javascript">';
 echo 'window.location.href="index.php";';
-echo '</script>';    }
+echo '</script>';
+}
 
 
 if(isset($_POST['submit']))
 {
- $id = mysqli_real_escape_string($conn, $_POST['userid']);
+ $regid = $_SESSION['regid'];
  $sem = strip_tags(mysqli_real_escape_string($conn, $_POST['sem']));
  if(isset($_POST['lab']))
  	$ccode = strip_tags(mysqli_real_escape_string($conn, $_POST['ccode']).mysqli_real_escape_string($conn, $_POST['lab']));
@@ -29,17 +30,35 @@ if(isset($_POST['submit']))
  $room = mysqli_real_escape_string($conn, $_POST['room']);
  
  for($i=0;$i<sizeof($wd);$i++)
- { $query = "INSERT INTO routine(  std_id,semester,course_code,section,starts,ends,weekdays,room) values('$id','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
+ { $query = "INSERT INTO routine(regID,semester,course_code,section,starts,ends,weekdays,room) values('$regid','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
  $res= mysqli_query($conn, $query) or die(mysql_error());
  }
  // if($res)
  // {
-  // ?>    <script>alert('Course Added Successfully');</script>
- // <?php
+  ?>   
+  <script>swal({
+        title:"Congratulations",
+        text: "Course Added Successfully",
+        type: "success",
+        confirmButtonColor: "green",
+        confirmButtonText: "Close",
+        closeOnConfirm: true
+        });
+          window.location.href=\'add.php\';</script>
+  <?php
  // }
  if(!$res)
  { ?>
-        <script>alert('Something went wrong!');</script>
+        <script>
+            swal({
+              title:"Error",
+              text: "Course addition failed",
+              type: "success",
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Close",
+              closeOnConfirm: true
+              });
+        </script>
         <?php
     
  }
@@ -49,21 +68,22 @@ if(isset($_POST['submit']))
 
 <?php if(isset($_SESSION['user']))
 {
-	if(time()-$_SESSION['logged_in']>600)
+	//inactivity check
+if(time()-$_SESSION['logged_in']>300)
   {
 
-    echo '<script>window.alert("Logged out for 10minutes inactivity");</script>';
+    echo '<script>window.alert("You have been auto logged out for 5 minutes inactivity");</script>';
     echo '<script>window.location.href="logout.php";</script>';
   }
   else{
-  	$_SESSION['logged_in']= time();
+    $_SESSION['logged_in']= time();
   }
 
 
 	?>
 
-
-<form method="post"  style="padding-top:6%;width: auto 60%;" class="container">
+<br>
+<form method="post"  style="width: auto 60%;" class="container">
 <input type="hidden" type="text" name="userid" required value="<?php echo $_SESSION['userid']; ?>"/>
 <div class="form-group">
 <label class="control-label col-md-2">Semester</label>
@@ -124,7 +144,7 @@ if(isset($_POST['submit']))
  
 <div class="form-group" style="padding-left: 30%;"> <br/><br/>
     <div class="col-md-offset-2 col-md-9"><br/>
-<button class="btn btn-outline-info" type="submit" name="submit">Add New Schedule</button> 
+<button class="btn btn-outline-white" type="submit" name="submit">Add New Schedule</button> 
 </div>
 </div>
 </form>
