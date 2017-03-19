@@ -1,7 +1,9 @@
 Student Courses Tracker Management
 ===================================
-A simple PHP based website that can help students to keep track of their completed and currently on going courses.
-Also allows them to store the schedule and class room number.
+This simple PHP based website helps students of
+East West University
+to keep track of completed and on goinging courses
+along side with its schedule, section and class room number.
 
 Requirements
 ============
