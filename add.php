@@ -13,6 +13,9 @@ echo 'window.location.href="index.php";';
 echo '</script>';
 }
 
+if(isset($_POST['add']) && !isset($_POST['wd'])){
+  echo '<script>alert("weekdays are required");</script>';
+}
 
 if(isset($_POST['add']))
 {
@@ -27,13 +30,21 @@ if(isset($_POST['add']))
  $section = mysqli_real_escape_string($conn, $_POST['sec']);
  $cstarts = mysqli_real_escape_string($conn, $_POST['strt']);
  $cends = mysqli_real_escape_string($conn, $_POST['ends']);
+ if(isset($_POST['wd']))
  $wd = $_POST['wd'];
+else $wd="Sunday";
  $room = mysqli_real_escape_string($conn, $_POST['room']);
  $count = 0;
+ if($wd!=null)
  for($i=0;$i<sizeof($wd);$i++)
  { $query = "INSERT INTO routine(regID,std_id,semester,course_code,section,starts,ends,weekdays,room) values('$regid','$s_id','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
- $res= mysqli_query($conn, $query) or die(mysql_error());
+ $res= mysqli_query($conn, $query) or die(mysqli_error($conn));
  $count++;
+ }
+ else{
+  $query = "INSERT INTO routine(regID,std_id,semester,course_code,section,starts,ends,weekdays,room) values('$regid','$s_id','$sem','$ccode','$section','$cstarts','$cends','$wd','$room') ";
+
+ $res= mysqli_query($conn, $query) or die(mysqli_error($conn));
  }
  if($res && $count!=0)
  {
@@ -91,14 +102,14 @@ if(time()-$_SESSION['logged_in']>300)
 <div class="form-group">
 <label class="control-label col-md-2">Semester</label>
 <div class="col-md-9">
-<input class="form-control " type="text" name="sem" placeholder="Semester; eg: Fall-2016" requ ired />
+<input class="form-control " type="text" name="sem" placeholder="Semester; eg: Fall-2016" required />*
 </div>
 </div>
 
 <div class="form-group">
 <label class="control-label col-md-2">Course Code</label>
 <div class="col-md-9">
-<input class="form-control" type="text" name="ccode" placeholder="eg: CSE105" requi red  />
+<input class="form-control" type="text" name="ccode" placeholder="eg: CSE105" required />*
 </div>
 </div>
 <div class="form-group">
@@ -117,13 +128,13 @@ if(time()-$_SESSION['logged_in']>300)
 <div class="form-group">
 <label class="control-label col-md-2">Class Starts</label>
 <div class="col-md-9">
-<input class="form-control" type="time" name="strt" placeholder="Starting time. Use HH:MM AM/PM type time format" requi red  />
+<input class="form-control" type="time" name="strt" placeholder="Starting time. Use HH:MM AM/PM type time format" required  />*
 </div>
 </div>
 <div class="form-group">
 <label class="control-label col-md-2">Class Ends</label>
 <div class="col-md-9">
-<input class="form-control" type="time" name="ends" placeholder="Ending time. Use HH:MM AM/PM type time format" requ ired  />
+<input class="form-control" type="time" name="ends" placeholder="Ending time. Use HH:MM AM/PM type time format" required  />*
 </div>
 </div>
 <div class="form-group">
@@ -141,13 +152,13 @@ if(time()-$_SESSION['logged_in']>300)
 <div class="form-group">
 <label class="control-label col-md-2">Class Room</label>
 <div class="col-md-9">
-<input class="form-control" type="text" name="room" placeholder="Room no" />
+<input class="form-control" type="text" name="room" placeholder="Room no"/>
 </div>
 </div>
  
 <div class="form-group" style="padding-left: 30%;"> <br/><br/>
     <div class="col-md-offset-2 col-md-9"><br/>
-<button class="btn btn-outline-white" type="submit" name="add">Add New Schedule</button> 
+<button class="btn btn-outline-white" type="submit" name="add" onclick="return weekdays();">Add New Schedule</button> 
 </div>
 </div>
 </form>
