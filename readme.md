@@ -50,3 +50,4 @@ LoginFailed
 -----------
 ![loginfailed](https://cloud.githubusercontent.com/assets/16546092/21073662/1b5418c6-bf0f-11e6-8964-9d83b68da8f6.jpg)
 
+#N.B: If you want to extend this please don't remove the original authors name.
