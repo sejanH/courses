@@ -1,6 +1,6 @@
 <?php
 require_once 'auth/db.php';
-
+ob_start();
 if(!isset($_SESSION['user']))
 {
   session_start();
@@ -110,23 +110,18 @@ $("#logout").click(function(){
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       
-      <ul class="nav navbar-nav navbar-right"><?php
+      <ul class="nav navbar-nav navbar-right" style="font-size: 14px;"><?php
       if(isset($_SESSION['user'])=="")
       {?>  <li class="hover"><a href="#register" id="myBtn2"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a href="#login" id="myBtn"><span class="glyphicon glyphicon-log-in"></span> Login &nbsp;&nbsp;</a></li>
         <?php 
       }
       else{?>
-         <li style="margin-right: 20px;" class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
-          <ul class="dropdown-menu" style="background-color:#252525;">
             <li><a href="add.php">Add New Schedule</a></li>
             <li><a href="update.php">Update Schedule</a></li> 
             <li class="active"><a><?php echo $_SESSION['user'];?></a></li>
             <li role="separator" class="divider"></li>
-            <li><a data-toggle="modal" id="logout" href="#signout" title="Logout"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
-          </ul>
-        </li>
+            <li><a data-toggle="modal" id="logout" href="#signout" title="Logout"><span class="glyphicon glyphicon-off"></span> Logout &nbsp;&nbsp;</a></li> 
   <?php  }
     ?>
       </ul>

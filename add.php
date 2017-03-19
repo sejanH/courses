@@ -14,9 +14,10 @@ echo '</script>';
 }
 
 
-if(isset($_POST['submit']))
+if(isset($_POST['add']))
 {
  $regid = $_SESSION['regid'];
+ $s_id = $_SESSION['userid'];
  $sem = strip_tags(mysqli_real_escape_string($conn, $_POST['sem']));
  if(isset($_POST['lab']))
  	$ccode = strip_tags(mysqli_real_escape_string($conn, $_POST['ccode']).mysqli_real_escape_string($conn, $_POST['lab']));
@@ -28,13 +29,14 @@ if(isset($_POST['submit']))
  $cends = mysqli_real_escape_string($conn, $_POST['ends']);
  $wd = $_POST['wd'];
  $room = mysqli_real_escape_string($conn, $_POST['room']);
- 
+ $count = 0;
  for($i=0;$i<sizeof($wd);$i++)
- { $query = "INSERT INTO routine(regID,semester,course_code,section,starts,ends,weekdays,room) values('$regid','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
+ { $query = "INSERT INTO routine(regID,std_id,semester,course_code,section,starts,ends,weekdays,room) values('$regid','$s_id','$sem','$ccode','$section','$cstarts','$cends','$wd[$i]','$room') ";
  $res= mysqli_query($conn, $query) or die(mysql_error());
+ $count++;
  }
- // if($res)
- // {
+ if($res && $count!=0)
+ {
   ?>   
   <script>swal({
         title:"Congratulations",
@@ -44,16 +46,18 @@ if(isset($_POST['submit']))
         confirmButtonText: "Close",
         closeOnConfirm: true
         });
-          window.location.href=\'add.php\';</script>
+//        window.location.href="add.php";
+
+    </script>
   <?php
- // }
+  }
  if(!$res)
  { ?>
         <script>
             swal({
               title:"Error",
               text: "Course addition failed",
-              type: "success",
+              type: "error",
               confirmButtonColor: "#DD6B55",
               confirmButtonText: "Close",
               closeOnConfirm: true
@@ -64,9 +68,8 @@ if(isset($_POST['submit']))
  }
  
 }
-?>
 
-<?php if(isset($_SESSION['user']))
+if(isset($_SESSION['user']))
 {
 	//inactivity check
 if(time()-$_SESSION['logged_in']>300)
@@ -88,14 +91,14 @@ if(time()-$_SESSION['logged_in']>300)
 <div class="form-group">
 <label class="control-label col-md-2">Semester</label>
 <div class="col-md-9">
-<input class="form-control " type="text" name="sem" placeholder="Semester; eg: Fall-2016" required />
+<input class="form-control " type="text" name="sem" placeholder="Semester; eg: Fall-2016" requ ired />
 </div>
 </div>
 
 <div class="form-group">
 <label class="control-label col-md-2">Course Code</label>
 <div class="col-md-9">
-<input class="form-control" type="text" name="ccode" placeholder="eg: CSE105" required  />
+<input class="form-control" type="text" name="ccode" placeholder="eg: CSE105" requi red  />
 </div>
 </div>
 <div class="form-group">
@@ -114,13 +117,13 @@ if(time()-$_SESSION['logged_in']>300)
 <div class="form-group">
 <label class="control-label col-md-2">Class Starts</label>
 <div class="col-md-9">
-<input class="form-control" type="time" name="strt" placeholder="Starting time. Use HH:MM AM/PM type time format" required  />
+<input class="form-control" type="time" name="strt" placeholder="Starting time. Use HH:MM AM/PM type time format" requi red  />
 </div>
 </div>
 <div class="form-group">
 <label class="control-label col-md-2">Class Ends</label>
 <div class="col-md-9">
-<input class="form-control" type="time" name="ends" placeholder="Ending time. Use HH:MM AM/PM type time format" required  />
+<input class="form-control" type="time" name="ends" placeholder="Ending time. Use HH:MM AM/PM type time format" requ ired  />
 </div>
 </div>
 <div class="form-group">
@@ -144,28 +147,12 @@ if(time()-$_SESSION['logged_in']>300)
  
 <div class="form-group" style="padding-left: 30%;"> <br/><br/>
     <div class="col-md-offset-2 col-md-9"><br/>
-<button class="btn btn-outline-white" type="submit" name="submit">Add New Schedule</button> 
+<button class="btn btn-outline-white" type="submit" name="add">Add New Schedule</button> 
 </div>
 </div>
 </form>
 <?php
 }
-?>
-<script type="text/javascript">
-	function disable(select_val,input_id) {
-                var e = document.getElementById(select_val);
-                var strUser = e.options[e.selectedIndex].value;
-                if(strUser === "100"){
-                    document.getElementById(input_id).disabled = false;
-                }
-                else{
-                    document.getElementById(input_id).value = document.getElementById(input_id).defaultValue;
-                    document.getElementById(input_id).disabled = true;
-                }
-}
-</script>
 
-
-<?php
 require_once 'layouts/footer.php';
 ?>

@@ -41,13 +41,7 @@ swal({
 });
 </script>
 <?php
-    // echo
-
-    // '<div class="jumbotron alert-info" style="text-align:center;">
-    // <h3>Failed!</h3><hr/>
-    // <p>Login credentials you provided were incorrect.</p>
-    // <p id="tryagain" ><a class="btn btn-warning"href="#">Try Again</a></p>
-    // </div>';
+    
  }
 
 }

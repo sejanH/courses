@@ -32,7 +32,7 @@ if(time()-$_SESSION['logged_in']>300)
   else{
     $_SESSION['logged_in']= time();
   }
-//search option showing
+//search option
  $sid = mysqli_real_escape_string($conn, $_SESSION['userid']);
  $std_name = mysqli_real_escape_string($conn, $_SESSION['user']);
 	echo '<center ><div class=" col-sm-2"><form method="post" class="form-group">
