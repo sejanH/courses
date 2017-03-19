@@ -71,7 +71,7 @@ echo '<br><center><form method="post" class="form-inline"><div class="container"
     {
       $sem= $_POST['semester'].'-'.$_POST['year'];
       $_SESSION['sem']= $sem;
-      $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC";
+      $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC, routine.starts ASC";
       $res= mysqli_query($conn, $q) or die(mysqli_error($conn));
   
 if(mysqli_num_rows($res)>0)
@@ -118,7 +118,7 @@ else{
   $sem=$_SESSION['sem'];
 }
 
-  $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC";
+  $q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC, routine.starts ASC";
    $res= mysqli_query($conn, $q) or die(mysql_error());
   
 
@@ -169,15 +169,40 @@ $edit = "UPDATE routine set course_code='$ccode',section='$csec',starts='$cstart
 
 $res = mysqli_query($conn, $edit) or die("Error: ".mysqli_error($conn));
       if(mysqli_affected_rows($conn)>0){
-        echo '<script>alert("Updated Successfully");window.location.replace("update.php");</script>';
+        echo '<script>swal({
+        title:"Success",
+        text: "Updated Successfully",
+        type: "success",
+        confirmButtonColor:"#00c0ad",
+        confirmButtonText: "Refresh",
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true
+        },
+        function(){
+           setTimeout(function(){
+            window.location.replace("update.php")
+          }, 1500);
+       });</script>';
       }
       elseif(mysqli_affected_rows($conn)==0){
-
-        echo '<script>alert("No changes made");</script>';
+echo '<script>swal({
+        title:"Message",
+        text: "No changes made",
+        type: "warning",
+        confirmButtonColor:"#DD6B55",
+        confirmButtonText: "Close",
+        closeOnConfirm: true
+        });</script>';
       }
       else{
-         
-        echo '<script>alert("Operation unsuccessful");</script>';
+         echo '<script>swal({
+        title:"Error",
+        text: "Update unsuccessful",
+        type: "error",
+        confirmButtonColor: "orange",
+        confirmButtonText: "Close",
+        closeOnConfirm: true
+        });</script>';
       }
 }
 }
