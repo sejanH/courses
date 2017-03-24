@@ -8,16 +8,14 @@ if(!isset($_SESSION['user']))
 		 ob_end_flush();
 		 flush();
 		 usleep(2000000);
-		echo '<script type="text/javascript">';
-echo 'window.location.href="index.php";';
-echo '</script>';
+		echo '<script type="text/javascript">window.location.href="index.php";</script>';
 }
 
 if(isset($_POST['add']) && !isset($_POST['wd'])){
   echo '<script>alert("weekdays are required");</script>';
 }
 
-if(isset($_POST['add']))
+if(isset($_POST['add']) && isset($_POST['wd']))
 {
  $regid = $_SESSION['regid'];
  $s_id = $_SESSION['userid'];
@@ -55,7 +53,12 @@ else $wd="Sunday";
         type: "success",
         confirmButtonColor: "green",
         confirmButtonText: "Close",
-        closeOnConfirm: true
+        closeOnConfirm: false
+        },
+        function(){
+           setTimeout(function(){
+            window.location.replace("add.php")
+          }, 100);
         });
 //        window.location.href="add.php";
 
@@ -71,8 +74,13 @@ else $wd="Sunday";
               type: "error",
               confirmButtonColor: "#DD6B55",
               confirmButtonText: "Close",
-              closeOnConfirm: true
-              });
+              closeOnConfirm: false
+              },
+        function(){
+           setTimeout(function(){
+            window.location.replace("add.php")
+          }, 100);
+        });
         </script>
         <?php
     
@@ -96,49 +104,49 @@ if(time()-$_SESSION['logged_in']>300)
 
 	?>
 
-<br>
-<form method="post"  style="width: auto 60%;" class="container">
+<br><div class="col-md-3"></div>
+<form method="post" class="col-md-7">
 <input type="hidden" type="text" name="userid" required value="<?php echo $_SESSION['userid']; ?>"/>
 <div class="form-group">
-<label class="control-label col-md-2">Semester</label>
+<label class="control-label col-md-3">Semester</label>
 <div class="col-md-9">
 <input class="form-control " type="text" name="sem" placeholder="Semester; eg: Fall-2016" required />*
 </div>
 </div>
 
 <div class="form-group">
-<label class="control-label col-md-2">Course Code</label>
+<label class="control-label col-md-3">Course Code</label>
 <div class="col-md-9">
 <input class="form-control" type="text" name="ccode" placeholder="eg: CSE105" required />*
 </div>
 </div>
 <div class="form-group">
-<label class="control-label col-md-2">Is it Lab Schedule?</label>
+<label class="control-label col-md-3">Is it Lab Schedule?</label>
 <div class="checkbox checkbox-inline">
 <label class="control-label my-label"><input type="checkbox" name="lab" value=" (Lab)">Check this box if its Lab Schedule</input></label>
 </div>
 </div>
 
 <div class="form-group">
-<label class="control-label col-md-2">Section</label>
+<label class="control-label col-md-3">Section</label>
 <div class="col-md-9">
 <input class="form-control" type="text" name="sec" placeholder="Section" />
 </div>
 </div>
 <div class="form-group">
-<label class="control-label col-md-2">Class Starts</label>
+<label class="control-label col-md-3">Class Starts</label>
 <div class="col-md-9">
 <input class="form-control" type="time" name="strt" placeholder="Starting time. Use HH:MM AM/PM type time format" required  />*
 </div>
 </div>
 <div class="form-group">
-<label class="control-label col-md-2">Class Ends</label>
+<label class="control-label col-md-3">Class Ends</label>
 <div class="col-md-9">
 <input class="form-control" type="time" name="ends" placeholder="Ending time. Use HH:MM AM/PM type time format" required  />*
 </div>
 </div>
 <div class="form-group">
-<label class="control-label col-md-2">Week days</label>
+<label class="control-label col-md-3">Week days</label>
 <div class="col-md-9">
 <div class="checkbox">
 <label class="control-label my-label"><input type="checkbox" value="Sunday" name="wd[]">Sunday</input></label>
@@ -146,11 +154,11 @@ if(time()-$_SESSION['logged_in']>300)
 <label class="control-label my-label"><input type="checkbox" value="Tuesday" name="wd[]">Tuesday</input></label>
 <label class="control-label my-label"><input type="checkbox" value="Wednesday" name="wd[]">Wednesday</input></label>  
 <label class="control-label my-label"><input type="checkbox" value="Thursday" name="wd[]">Thursday</input></label>  
-</div>
+</div>*
  </div>
  </div>
 <div class="form-group">
-<label class="control-label col-md-2">Class Room</label>
+<label class="control-label col-md-3">Class Room</label>
 <div class="col-md-9">
 <input class="form-control" type="text" name="room" placeholder="Room no"/>
 </div>

@@ -7,7 +7,7 @@ along side with its schedule, section and class room number.
 
 Requirements
 ============
-* PHP >=5.4
+* PHP >=5.3
 * MySql >=5.5
 
 Installation

@@ -11,11 +11,14 @@ if(isset($_POST['submit']))
  $pass = md5($pass);
  $fname = mysqli_real_escape_string($conn, $_POST['fname']);
  $email = mysqli_real_escape_string($conn, $_POST['email']);
+ $dob = mysqli_real_escape_string($conn, $_POST['dob']);
+ $string = strtotime($dob);
+ $dobFormated = date("Y-m-d", $string);
  $fsem = mysqli_real_escape_string($conn, $_POST['fsem']);
 
- $query = "INSERT INTO student_info(std_id,std_name,email,pass,starting_semester) values('$sid','$fname','$email','$pass','$fsem') ";
-
- $res= mysqli_query($conn, $query); //or die(mysql_errno());
+ $query = "INSERT INTO student_info(std_id,std_name,email,DoB,pass,starting_semester) values('$sid','$fname','$email','$dobFormated','$pass','$fsem') ";
+ //echo $query;
+$res= mysqli_query($conn, $query); //or die(mysql_errno());
 
  if($res)
  {
@@ -54,7 +57,7 @@ if(isset($_POST['submit']))
             <div class="form-group">
               <label class="col-md-3"><span class="glyphicon glyphicon-user"></span> ID</label>
               <div class="col-md-8">
-                <input   type="text" class="form-control" name="sid" placeholder="Enter EWU Student ID eg. 201X-X-XX-XXX" /> &nbsp;*
+                <input   type="text" class="form-control" name="sid" placeholder="Enter EWU Student ID eg. 201X-X-XX-XXX; X is integer" /> &nbsp;*
               </div>
             </div>
 
@@ -71,7 +74,7 @@ if(isset($_POST['submit']))
             <div class="form-group">
               <label class="col-md-3"><span class="glyphicon glyphicon-user"></span> Name</label>
               <div class="col-md-8">
-              <input id="fullname" type="text" class="form-control" name="fname" placeholder="Enter You full name" required/> &nbsp;*
+              <input id="fullname" type="text" class="form-control" name="fname" placeholder="Enter Your Full Name" required/> &nbsp;*
               </div>
             </div>
 
@@ -79,6 +82,13 @@ if(isset($_POST['submit']))
               <label class="col-md-3"><span class="glyphicon glyphicon-envelope"></span> Email</label>
               <div class="col-md-8">
               <input id="email" type="email" class="form-control" name="email" placeholder="Enter email"/> &nbsp;*
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-3"><span class="glyphicon glyphicon-calendar"></span> Date of Birth</label>
+              <div class="col-md-8">
+              <input type="date" class="form-control" name="dob" placeholder="Enter Birthdate"/>
               </div>
             </div>
 

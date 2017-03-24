@@ -33,7 +33,7 @@ function sel_semester(){
 ?>
 <html  lang="en">
 <head>
-	<title>Welcome</title>
+	<title><?php if(!isset($_SESSION["userid"])) echo "Welcome"; else echo $_SESSION["userid"];?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- for Google --><meta name="description" content="A simple website for EWU students to keep track of their courses semester wise" /><meta name="keywords" content="courses, EWU, students" /><meta name="application-name" content="http:// " /><!-- for Facebook -->          <meta property="og:title" content="Welcome to Courses" /><meta property="og:type" content="blog" /><meta property="og:image" content="/preview.png" /><meta property="og:url" content="http:// " /><meta property="og:description" content="A simple website for EWU students to keep track of their courses semester wise" /><!-- for Twitter -->          <meta name="twitter:card" content="summary" /><meta name="twitter:title" content="Welcome to Courses" /><meta name="twitter:description" content="A simple website for EWU students to keep track of their semester wise courses" /><meta name="twitter:image" content="http:// " />    
   <link rel="icon" href="css-js/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" type="text/css" href="css-js/btn.css"/>
@@ -43,9 +43,6 @@ function sel_semester(){
   <script src="css-js/bootstrap.js"></script>
   <script src="css-js/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="css-js/sweetalert.css"/>
- 
-	<!-- <script type="text/javascript" src="css-js/mdb.min.js"></script>  -->
-
   <style type="text/css">
 .navbar{
   font-family: 'Exo', Sans-serif;
@@ -119,7 +116,7 @@ $("#logout").click(function(){
       else{?>
             <li><a href="add.php">Add New Schedule</a></li>
             <li><a href="update.php">Update Schedule</a></li> 
-            <li class="active"><a><?php echo $_SESSION['user'];?></a></li>
+            <li class="active"><a href="profile.php"><?php echo $_SESSION['user'];?></a></li>
             <li role="separator" class="divider"></li>
             <li><a data-toggle="modal" id="logout" href="#signout" title="Logout"><span class="glyphicon glyphicon-off"></span> Logout &nbsp;&nbsp;</a></li> 
   <?php  }

@@ -33,7 +33,7 @@ if(time()-$_SESSION['logged_in']>300)
     $_SESSION['logged_in']= time();
   }
 //search option
- $sid = mysqli_real_escape_string($conn, $_SESSION['userid']);
+ $sid = mysqli_real_escape_string($conn, $_SESSION['regid']);
  $std_name = mysqli_real_escape_string($conn, $_SESSION['user']);
 	echo '<center ><div class=" col-sm-2"><form method="post" class="form-group">
 	<select name="semester" class="form-control" required>
@@ -55,7 +55,7 @@ if(time()-$_SESSION['logged_in']>300)
   	{
   		$sem= $_POST['semester'].'-'.$_POST['year'];
 
-  		$q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem' order by weekdays.wid ASC,routine.starts ASC";
+  		$q = "SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where regID='$sid' and semester='$sem' order by weekdays.wid ASC,routine.starts ASC";
 	 $res= mysqli_query($conn, $q) or die(mysqli_error($conn));
 	 
 if(mysqli_num_rows($res)>0)
@@ -86,7 +86,7 @@ if(mysqli_num_rows($res)>0)
  else
  { //default information showing
  
-$q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where std_id='$sid' and semester='$sem1' order by weekdays.wid ASC,routine.starts ASC";
+$q2="SELECT * FROM routine join weekdays on routine.weekdays=weekdays.weekdays where regID='$sid' and semester='$sem1' order by weekdays.wid ASC,routine.starts ASC";
 
 	
 	 $res2= mysqli_query($conn, $q2) or die(mysqli_error($conn));

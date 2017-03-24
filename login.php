@@ -15,7 +15,7 @@ if(isset($_POST['login']))
 
  //$pass= md5($pass);
 
- $query = "SELECT * FROM student_info WHERE id='$id' AND pass='$pass'";
+ $query = "SELECT * FROM student_info WHERE std_id='$id' AND pass='$pass'";
 
  $res= @mysql_query($query) or die(mysql_error());
 
@@ -27,9 +27,9 @@ if(isset($_POST['login']))
  {
   session_start();
   $_SESSION['logged_in']= time();
+  $_SESSION['regid'] = $row['regID'];
   $_SESSION['user'] = $row['std_name'];
-  $_SESSION['userid'] = $row['id'];
-
+  $_SESSION['userid'] = $row['std_id'];
   header("Location:index.php");
  }
 
