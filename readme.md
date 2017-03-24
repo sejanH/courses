@@ -37,7 +37,7 @@ Used Plugins
 
 Preview
 =======
-### [Live](http://stdcm.sejan.xyz)
+### [Live](http://courses.sejan.xyz)
 
 Desktop
 -------
