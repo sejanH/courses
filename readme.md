@@ -37,7 +37,7 @@ Used Plugins
 
 Preview
 =======
-### [Live](http://courses.sejan.xyz)
+### [Demo](http://sejan.000webhostapp.com/courses/)
 
 Desktop
 -------
